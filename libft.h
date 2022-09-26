@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gtrabajo <gtrabajo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabymb <gabymb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 18:01:01 by gtrabajo          #+#    #+#             */
-/*   Updated: 2022/09/22 18:33:31 by gtrabajo         ###   ########.fr       */
+/*   Updated: 2022/09/24 20:16:39 by gabymb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,8 @@ int		ft_tolower(int c);
 int		ft_toupper(int c);
 
 char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strtrim(char const *s1, char const *set);
+char	**ft_split(char const *s, char c);
 
 #endif

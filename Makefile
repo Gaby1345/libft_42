@@ -29,7 +29,9 @@ EX1 = 	ft_atoi.c\
 		ft_tolower.c\
 		ft_toupper.c\
 		ft_substr.c\
-		ft_strjoin
+		ft_strjoin.c\
+		ft_strtrim.c\
+		ft_split.c
 ########################################################################
 all: mklib
 
