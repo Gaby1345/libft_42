@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabymb <gabymb@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gtrabajo <gtrabajo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 14:43:57 by gabymb            #+#    #+#             */
-/*   Updated: 2022/09/24 18:38:07 by gabymb           ###   ########.fr       */
+/*   Updated: 2022/11/14 17:11:35 by gtrabajo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,16 @@ char	*ft_strtrim(char const *s1, char const *set)
 	int		j;
 	int		size;
 
-	i = 1;
-	j = 0;
 	size = ft_strlen(s1);
-	str = (char *)malloc(size * sizeof(char));
-	if (str == NULL)
-		return (NULL);
-	size--;
-	while (set[i++])
+	i = 0;
+	j = size - 1;	
+	while (ft_strchr(set, s1[i]) || ft_strchr(set, s1[j]))
 	{
-		if (s1[j] != set[i] && s1[size] != set[i])
-		{
-			ft_strlcpy(str, (s1 + j), size - j);
-			break ;
-		}
-		while (s1[j] == set[i])
-			j++;
-		while (s1[size] == set[i])
-			size--;
+		if (ft_strchr(set, s1[i]))
+			i++;
+		else if (ft_strchr(set, s1[j]))
+			j--;
 	}
+	str = ft_substr(s1, i, j - i + 1);
 	return (str);
 }
