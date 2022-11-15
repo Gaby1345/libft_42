@@ -3,52 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabymb <gabymb@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gtrabajo <gtrabajo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 19:15:17 by gabymb            #+#    #+#             */
-/*   Updated: 2022/09/24 21:08:14 by gabymb           ###   ########.fr       */
+/*   Updated: 2022/11/15 19:49:58 by gtrabajo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdio.h>
 
-static void	free_matrix(char **mat, int n);
 static int	counter(const char *s, char c);
-static char	*get_word(const char *s, char c);
+static int	*words_size(const char *s, char c);
 
 char	**ft_split(char const *s, char c)
 {
 	char	**arr;
+	int		*words;
 	int		size;
 	int		i;
 	int		j;
 
+	if (s == NULL)
+		return (NULL);
+	words = words_size(s, c);
 	size = counter(s, c);
+	printf("WORDS: %d", words[0]);
+	printf("SIZE: %d", size);
 	arr = (char **)malloc((size + 1) * sizeof(char *));
 	if (arr == NULL)
 		return (NULL);
-	if (size == 0)
-	{
-		arr[0] = NULL;
-		return (arr);
-	}
 	i = 0;
 	j = 0;
-	while (i < size && s[j])
+	while (i < size)
 	{
-		while (s[j] == c)
-			j++;
-		arr[i] = get_word(&(s[j]), c);
-		if (arr[i] == NULL)
-		{
-			free_matrix(arr, i);
-			return (NULL);
-		}
-		while (s[j] != c && s[j])
-			j++;
+		arr[i] = ft_substr(s, j, words[i]);
+		j = words[i];
 		i++;
 	}
+	arr[i] = NULL;
+	free(words);
 	return (arr);
 }
 
@@ -75,37 +69,26 @@ static int	counter(const char *s, char c)
 	return (n);
 }
 
-static char	*get_word(const char *s, char c)
+static int	*words_size(const char *s, char c)
 {
-	char	*word;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	while (s[i] != c && s[i] != '\0')
-		i++;
-	word = (char *)malloc(((i + 1) * sizeof(char)));
-	if (word == NULL)
-		return (NULL);
-	while (j < i)
-	{
-		word[j] = s[j];
-		j++;
-	}
-	word[j] = '\0';
-	return (word);
-}
-
-static void	free_matrix(char **mat, int n)
-{
+	int	*words;
+	int	letters;
 	int	i;
 
+	letters = 0;
 	i = 0;
-	while (i < n)
+	words = (int *)malloc(counter(s, c) * sizeof(int));
+	if (words == NULL)
+		return (NULL);
+	while (*s)
 	{
-		free(mat[i]);
-		i++;
+		if (*s == c)
+		{
+			words[i] = letters - 1;
+			letters = 0;
+		}
+		letters++;
+		s++;
 	}
-	free(mat);
+	return (words);
 }
