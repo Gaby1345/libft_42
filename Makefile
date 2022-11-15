@@ -1,6 +1,7 @@
 ########################################################################
 CC = gcc
-OBJS = $(EX1:.c=.o) $(EX2:.c=.o) $(BONUS:.c=.o)
+OBJS = $(EX1:.c=.o) $(EX2:.c=.o)
+BOBJS = $(BONUS:.c=.o)
 CFLAGS = -Wall -Werror -Wextra -c
 LIB = ar rcs
 NAME = libft.a
@@ -62,13 +63,16 @@ $(NAME): $(OBJS)
 compile:
 	$(CC) $(CFLAGS) $(EX1) $(EX2)
 
-bonus:
-	$(CC) $(CFLAGS) $(BONUS)
+compileBonus:
+	$(CC) $(CFLAGS) $(BOBJS)
+
+bonus: $(BOBJS) $(OBJS)
+	$(LIB) $(NAME) $(BOBJS) $(OBJS)
 
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJS) $(BOBJS)
 
 fclean: clean
-	rm -f $(NAME) 
+	rm -f $(NAME)
 
 re: fclean all
