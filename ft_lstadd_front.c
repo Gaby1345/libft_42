@@ -1,37 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gabymb <gabymb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/20 14:43:57 by gabymb            #+#    #+#             */
-/*   Updated: 2022/11/15 13:58:33 by gabymb           ###   ########.fr       */
+/*   Created: 2022/11/15 14:29:57 by gabymb            #+#    #+#             */
+/*   Updated: 2022/11/15 14:58:00 by gabymb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdlib.h>
 
-char	*ft_strtrim(char const *s1, char const *set)
+void	ft_lstadd_front(t_list **lst, t_list *new)
 {
-	char	*str;
-	int		i;
-	int		j;
-	int		size;
-
-	size = ft_strlen(s1);
-	i = 0;
-	j = size - 1;
-	if (j < 0)
-		return (ft_substr(s1, 0, 1));
-	while (ft_strchr(set, s1[i]) || ft_strchr(set, s1[j]))
-	{
-		if (ft_strchr(set, s1[i]))
-			i++;
-		else if (ft_strchr(set, s1[j]))
-			j--;
-	}
-	str = ft_substr(s1, i, j - i + 1);
-	return (str);
+	if (lst == NULL || lst[0] == NULL)
+		return ;
+	new->next = lst[0];
+	lst[0] = new;
 }
+

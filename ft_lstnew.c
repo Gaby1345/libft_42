@@ -1,37 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gabymb <gabymb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/20 14:43:57 by gabymb            #+#    #+#             */
-/*   Updated: 2022/11/15 13:58:33 by gabymb           ###   ########.fr       */
+/*   Created: 2022/11/15 14:21:21 by gabymb            #+#    #+#             */
+/*   Updated: 2022/11/15 14:28:17 by gabymb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdlib.h>
 
-char	*ft_strtrim(char const *s1, char const *set)
+t_list	*ft_lstnew(void *content)
 {
-	char	*str;
-	int		i;
-	int		j;
-	int		size;
+	t_list	*node;
 
-	size = ft_strlen(s1);
-	i = 0;
-	j = size - 1;
-	if (j < 0)
-		return (ft_substr(s1, 0, 1));
-	while (ft_strchr(set, s1[i]) || ft_strchr(set, s1[j]))
-	{
-		if (ft_strchr(set, s1[i]))
-			i++;
-		else if (ft_strchr(set, s1[j]))
-			j--;
-	}
-	str = ft_substr(s1, i, j - i + 1);
-	return (str);
+	node = (t_list *)malloc(sizeof(t_list));
+	if (node == NULL)
+		return (NULL);
+	node->content = content;
+	node->next = NULL;
+	return (node);
 }

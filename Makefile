@@ -1,6 +1,6 @@
 ########################################################################
 CC = gcc
-OBJS = $(EX1:.c=.o)
+OBJS = $(EX1:.c=.o) $(EX2:.c=.o) $(BONUS:.c=.o)
 CFLAGS = -Wall -Werror -Wextra -c
 LIB = ar rcs
 NAME = libft.a
@@ -27,8 +27,9 @@ EX1 = 	ft_atoi.c\
 		ft_strnstr.c\
 		ft_strrchr.c\
 		ft_tolower.c\
-		ft_toupper.c\
-		ft_substr.c\
+		ft_toupper.c
+		
+EX2	=	ft_substr.c\
 		ft_strjoin.c\
 		ft_strtrim.c\
 		ft_split.c\
@@ -39,6 +40,17 @@ EX1 = 	ft_atoi.c\
 		ft_putstr_fd.c\
 		ft_putendl_fd.c\
 		ft_putnbr_fd.c
+
+BONUS =	ft_lstnew.c\
+		ft_lstadd_front.c\
+		ft_lstsize.c\
+		ft_lstlast.c\
+		ft_lstadd_back.c\
+		ft_lstdelone.c\
+		ft_lstclear.c\
+		ft_lstiter.c\
+		ft_lstmap.c
+
 ########################################################################
 all: mklib
 
@@ -48,7 +60,10 @@ $(NAME): $(OBJS)
 	$(LIB) $(NAME) $(OBJS)
 
 compile:
-	$(CC) $(CFLAGS) $(EX1)
+	$(CC) $(CFLAGS) $(EX1) $(EX2)
+
+bonus:
+	$(CC) $(CFLAGS) $(BONUS)
 
 clean:
 	rm -f $(OBJS)
