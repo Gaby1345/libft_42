@@ -6,45 +6,12 @@
 /*   By: gtrabajo <gtrabajo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 19:15:17 by gabymb            #+#    #+#             */
-/*   Updated: 2022/11/15 19:49:58 by gtrabajo         ###   ########.fr       */
+/*   Updated: 2022/11/16 15:18:24 by gtrabajo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdio.h>
-
-static int	counter(const char *s, char c);
-static int	*words_size(const char *s, char c);
-
-char	**ft_split(char const *s, char c)
-{
-	char	**arr;
-	int		*words;
-	int		size;
-	int		i;
-	int		j;
-
-	if (s == NULL)
-		return (NULL);
-	words = words_size(s, c);
-	size = counter(s, c);
-	printf("WORDS: %d", words[0]);
-	printf("SIZE: %d", size);
-	arr = (char **)malloc((size + 1) * sizeof(char *));
-	if (arr == NULL)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (i < size)
-	{
-		arr[i] = ft_substr(s, j, words[i]);
-		j = words[i];
-		i++;
-	}
-	arr[i] = NULL;
-	free(words);
-	return (arr);
-}
 
 static int	counter(const char *s, char c)
 {
@@ -53,8 +20,6 @@ static int	counter(const char *s, char c)
 
 	n = 0;
 	flag = 0;
-	if (*s == 0)
-		return (0);
 	while (*s)
 	{
 		if (*s == c)
@@ -63,32 +28,85 @@ static int	counter(const char *s, char c)
 		{
 			flag = 1;
 			n++;
-		}	
+		}
 		s++;
 	}
 	return (n);
 }
 
-static int	*words_size(const char *s, char c)
+static void	free_matrix(char **mat, int n)
 {
-	int	*words;
-	int	letters;
 	int	i;
 
-	letters = 0;
 	i = 0;
-	words = (int *)malloc(counter(s, c) * sizeof(int));
-	if (words == NULL)
-		return (NULL);
-	while (*s)
+	while (i < n)
 	{
-		if (*s == c)
-		{
-			words[i] = letters - 1;
-			letters = 0;
-		}
-		letters++;
-		s++;
+		free(mat[i]);
+		i++;
 	}
-	return (words);
+	free(mat);
+}
+
+char	*get_word(char *s, char c, int *index)
+{
+	int		i;
+	int		j;
+	char	*word;
+
+	i = (*index);
+	while (s[i] == c)
+		i++;
+	j = i;
+	while (s[j] != c)
+		j++;
+	(*index) = j;
+	word = ft_substr(s, i, j - i);
+	if (word == NULL)
+		return (NULL);
+	return (word);
+}
+
+char	**ft_split(char const *s, char c)
+{
+	char	*str;
+	char	**arr;
+	int		wordn;
+	int		i;
+	int		index;
+
+	if (s == NULL)
+		return (NULL);
+	i = 0;
+	index = 0;
+	str = ft_strtrim(s, &c);
+	wordn = counter(str, c);
+	printf("wordn = %d\n", wordn);
+	arr = (char **)ft_calloc(wordn + 1, sizeof(char *));
+	if (arr == NULL)
+		return (NULL);
+	while (i < wordn)
+	{
+		arr[i] = get_word(str, c, &index);
+		if (arr[i] == NULL)
+		{
+			free_matrix(arr, i);
+			return (NULL);
+		}
+		i++;
+	}
+	return (arr);
+}
+
+int	main()
+{
+	char		**matrix;
+	int			i = 0;
+
+	matrix = ft_split("    Hola    buenas    ", ' ');
+	while (matrix[i])
+	{
+		printf("%i - %s\n", i , matrix[i]);
+		i++;
+	}
+	return (0);
 }
