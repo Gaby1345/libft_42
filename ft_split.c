@@ -6,7 +6,7 @@
 /*   By: gtrabajo <gtrabajo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 19:15:17 by gabymb            #+#    #+#             */
-/*   Updated: 2022/11/16 15:18:24 by gtrabajo         ###   ########.fr       */
+/*   Updated: 2022/11/16 16:14:01 by gtrabajo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,21 @@ static int	counter(const char *s, char c)
 	return (n);
 }
 
+static int	count_letters(const char *s, char c, int index)
+{
+	int	letters;
+
+	letters = 0;
+	while (s[index] == c)
+		index++;
+	while (s[index] != c)
+	{
+		index++;
+		letters++;
+	}
+	return (letters);
+}
+
 static void	free_matrix(char **mat, int n)
 {
 	int	i;
@@ -47,22 +62,29 @@ static void	free_matrix(char **mat, int n)
 	free(mat);
 }
 
-char	*get_word(char *s, char c, int *index)
+char	*get_word(char const *s, char c, int *index)
 {
 	int		i;
 	int		j;
+	int		len;
 	char	*word;
 
-	i = (*index);
-	while (s[i] == c)
-		i++;
-	j = i;
-	while (s[j] != c)
-		j++;
-	(*index) = j;
-	word = ft_substr(s, i, j - i);
+	i = *index;
+	j = 0;
+	len = count_letters(s, c, i);
+	word = (char *)malloc((len + 1) * sizeof(char));
 	if (word == NULL)
 		return (NULL);
+	while (s[i] == c)
+		i++;
+	while (s[i] != c)
+	{
+		word[j] = s[i];
+		i++;
+		j++;
+	}
+	word[j++] = '\0';
+	*index = i;
 	return (word);
 }
 
@@ -74,39 +96,21 @@ char	**ft_split(char const *s, char c)
 	int		i;
 	int		index;
 
-	if (s == NULL)
+	if (s == 0)
 		return (NULL);
 	i = 0;
 	index = 0;
 	str = ft_strtrim(s, &c);
 	wordn = counter(str, c);
-	printf("wordn = %d\n", wordn);
-	arr = (char **)ft_calloc(wordn + 1, sizeof(char *));
+	arr = (char **)ft_calloc((wordn + 1), sizeof(char *));
 	if (arr == NULL)
 		return (NULL);
 	while (i < wordn)
 	{
 		arr[i] = get_word(str, c, &index);
 		if (arr[i] == NULL)
-		{
 			free_matrix(arr, i);
-			return (NULL);
-		}
 		i++;
 	}
 	return (arr);
-}
-
-int	main()
-{
-	char		**matrix;
-	int			i = 0;
-
-	matrix = ft_split("    Hola    buenas    ", ' ');
-	while (matrix[i])
-	{
-		printf("%i - %s\n", i , matrix[i]);
-		i++;
-	}
-	return (0);
 }
